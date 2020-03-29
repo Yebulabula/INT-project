@@ -4,7 +4,11 @@
 
 (:requirements :typing :durative-actions:fluents:duration-inequalities:equality)
 
-(:types dish table private_room kitchen hand box robot)
+(:types dish robot - object
+        private_room kitchen table - location
+        dessert appertise main_course - dish 
+        hand box - robot
+)
 
 (:predicates
     ;robot is at table t
