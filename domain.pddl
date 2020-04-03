@@ -1,16 +1,16 @@
 ;INT_project domain
 
-(define (domain ROBOT)
+(define (domain CITY_MANAGER)
 
 (:requirements :typing :durative-actions:fluents:duration-inequalities:equality)
-
-(:types dish robot - object
-        private_room kitchen table - location
-        dessert appertise main_course - dish 
-        hand box - robot
+(:types 
+        docker position -location
+        vehicle goods -object
+        car UAV robot -vehicle
 )
 
 (:predicates
+
     ;robot is at table t
     (at-table ?t -table)
     ;check if the hand is empty
@@ -31,10 +31,17 @@
     (canWork ?r-robot)
 )
 
-(:functions (Battery_level ?RT -robot) (Power_comsumption ?RT-robot) 
-            (Power_required ?RT -robot) (total_power_comsumption ?RT -robot) 
-            (Box_space ?b -box) (Space_used ?b -box)
-            (space_requiresd ?b -box) (capacity_used ?b -box)
+(:functions 
+            (Carrying_capacity ?v -vehicle)
+            (time_to_charge ?r -robot)
+            (time_to_arrive ?from ?to -location ?v -vehicle)
+            (load_time ?v -vehicle)
+            (unload_time ?v -vehicle)
+            (power_used ?from ?to -location ?v -vehicle)
+            (charge_in_docker)
+            (charge_in_car)
+        　　 (total_power ?v -vehicle)
+)
 
 ; this action greets one thing by its name
 (:action say-hello
