@@ -47,7 +47,7 @@
     :duration (= ?duration (/ (- 80 (power_level ?v)) (charge_in_hub ?v)))
     :condition (and
         (at start(< (power_level ?v) 80))
-        (over all free ?v)
+        (over all (free ?v))
         (over all (at ?v ?h))
     )
     :effect (and 
