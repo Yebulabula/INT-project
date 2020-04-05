@@ -66,6 +66,7 @@
     )
     :effect (and 
         (increase (power_level ?r)#t)
+        (decrease (power_level ?c)#t)
     )
 )
 
