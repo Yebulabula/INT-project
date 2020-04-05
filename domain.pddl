@@ -11,6 +11,8 @@
 )
 
 (:predicates
+    ;the vehicle is free 
+    (free ?v - vehicle)
     ;the location of movable object
     (at ?m - movable ?l - location)
     ;goods in the vehicle
@@ -36,11 +38,37 @@
             (goods_position_available ?c - car)   
             (robot_position_available ?c - car) 
             (max_robot_position ?c - car)
-            (charge_in_docker)
-            (charge_in_car)
+            (charge_in_hub ?v) ;recharge rate in hub
             (power_level ?v -vehicle)
-            (max_power ?v -vehicle)
 )
+
+(:durative-action charge_in_hub
+    :parameters (?h - hub ?v - vehicle) 
+    :duration (= ?duration (/ (- 80 (power_level ?v)) (charge_in_hub ?v)))
+    :condition (and
+        (at start(< (power_level ?v) 80))
+        (over all free ?v)
+        (over all (at ?v ?h))
+    )
+    :effect (and 
+        (increase (power_level ?v)(* (charge_in_hub ?v)#t))
+    )
+)
+
+
+(:durative-action chargeR_in_car
+    :parameters (?c - car　?r - robot ?l1l2 - location)
+    :duration (= ?duration (/(distance_land ?l1?l2 - location)　(speed ?c)))
+    :condition (and
+        (at start(< (power_level ?r)100))
+        (over all (free ?r))
+        (over all (equip ?r ?c))
+    )
+    :effect (and 
+        (increase (power_level ?r)#t)
+    )
+)
+
 
 (:durative-action load_carrier
     :parameters (?g - goods ?c - carrier ?h - hub)
