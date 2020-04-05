@@ -2,59 +2,186 @@
 
 (define (domain CITY_MANAGER)
 
-(:requirements :typing :durative-actions:fluents:duration-inequalities:equality)
+(:requirements :typing :durative-actions:fluents:duration-inequalities:equality :negative-preconditions)
 (:types 
-        docker position -location
-        vehicle goods -object
-        car UAV robot -vehicle
+        hub position - location
+        vehicle goods - movable
+        car carrier - vehicle
+        UAV robot - carrier
 )
 
 (:predicates
-
-    ;robot is at table t
-    (at-table ?t -table)
-    ;check if the hand is empty
-    (handEmpty ?h -hand)
-    ;carry dish d on hand j
-    (carry ?d -dish ?h -hand)
-    ;robot is at private room pr
-    (at-private_room ?pr - private_room)
-    ;check if the box has available space
-    (full ?b -box)
-    ;dish d is in box b
-    (in ?d -dish ?b -box)
-    ;the distance between two tables
-    (distance ?t1?t2 -table)
-    ;the distance between table and kitchen
-    (Take_food_diatance ?t-table ?k-kitchen)
-    ;check if the robot is power off
-    (canWork ?r-robot)
+    ;the location of movable object
+    (at ?m - movable ?l - location)
+    ;goods in the vehicle
+    (in ?g - goods ?v - vehicle)
+    ;car equip robot
+    (equip ?r - robot ?c - car)
+    ;carrier can load things
+    (carrying ?c - carrier)
 )
 
 (:functions 
-            (Carrying_capacity ?v -vehicle)
-            (time_to_charge ?r -robot)
-            (time_to_arrive ?from ?to -location ?v -vehicle)
+            
+            (weight ?g - goods)
+
+            (distance_land ?l1?l2 - location)   ;两点陆地距离
+            (distance_air ?l1?l2 - location)    ;两点天空距离
+
+            (speed ?v -vehicle)                 ;移动速度
+            (power_used_rate ?v -vehicle)       ;每公里耗电
             (load_time ?v -vehicle)
-            (unload_time ?v -vehicle)
-            (power_used ?from ?to -location ?v -vehicle)
+            (unload_time ?v -vehicle) 
+            (carrying_capacity ?c -carrier)  
+            (goods_position_available ?c - car)   
+            (robot_position_available ?c - car) 
+            (max_robot_position ?c - car)
             (charge_in_docker)
             (charge_in_car)
-        　　 (total_power ?v -vehicle)
+            (power_level ?v -vehicle)
+            (max_power ?v -vehicle)
 )
 
-; this action greets one thing by its name
-(:action say-hello
-    :parameters (?t - thing)
-    :precondition (and
-        ; we only ever need to greet once
-        (not (said_hello_to ?t))
-        ; only greet someone if they are near
-        (can_hear ?t)
+(:durative-action load_carrier
+    :parameters (?g - goods ?c - carrier ?h - hub)
+    :duration (= ?duration (load_time ?c))
+    :condition (and 
+        (at start (not(carrying ?c)))
+        (at start (>=(carrying_capacity ?c)(weight ?g)))
+        (at start (at ?g ?h))
+        (over all (at ?c ?h))
+    )
+    :effect (and 
+        (at start (not(at ?g ?h)))
+        (at start (carrying ?c))
+        (at end (in ?g ?c))
+    )
+)
+
+(:durative-action load_car
+    :parameters (?g - goods ?r - robot ?c - car ?h - hub)
+    :duration (= ?duration (load_time ?c))
+    :condition (and 
+        (at start (not(carrying ?r)))
+        (at start (>=(carrying_capacity ?r)(weight ?g)))
+        (at start (>=(goods_position_available ?c)1))
+        (at start (at ?g ?h))
+        (over all (at ?c ?h))
+        (over all (at ?r ?h))
+    )
+    :effect (and 
+        (at start (not(at ?g ?h)))
+        (at start (carrying ?r))
+        (at start (decrease (goods_position_available ?c) 1))
+        (at end (in ?g ?c))
+        (at end (not(carrying ?r)))
+    )
+)
+
+(:durative-action equip
+    :parameters (?r - robot ?c - car ?l - location)
+    :duration (= ?duration 0.3)
+    :condition (and 
+        (at start (>=(robot_position_available ?c)1))
+        (at start (not(carrying ?r)))
+        (at start (at ?r ?l))
+        (over all (at ?c ?l))
+    )
+    :effect (and 
+        (at start (not(at ?r ?l)))
+        (at start (decrease (robot_position_available ?c) 1))
+        (at end (equip ?r ?c))
+    )
+)
+
+(:durative-action unequip
+    :parameters (?r - robot ?c - car ?h - hub)
+    :duration (= ?duration 0.3)
+    :condition (and 
+        (at start (<(robot_position_available ?c)(max_robot_position ?c)))
+        (at start (not(carrying ?r)))
+        (at start (in ?r ?c))
+        (over all (at ?c ?h))
     )
     :effect (and
-        ; record that we said hello
-        (said_hello_to ?t)
+        (at start (not(in ?r ?c)))
+        (at end (increase (robot_position_available ?c) 1))
+        (at end (not(equip ?r ?c)))
+        (at end (at ?r ?h))
+    )
+)
+
+(:durative-action unload_carrier
+    :parameters (?g - goods ?c - carrier ?l - location)
+    :duration (= ?duration (unload_time ?c))
+    :condition (and 
+        (at start (carrying ?c))
+        (at start (in ?g ?c))
+        (over all (at ?c ?l))
+    )
+    :effect (and 
+        (at start (not(in ?g ?c)))
+        (at end (not(carrying ?c)))
+        (at end (at ?g ?l))
+    )
+)
+
+(:durative-action unload_car
+    :parameters (?g - goods ?r - robot ?c - car ?l - location)
+    :duration (= ?duration (+(unload_time ?c)(load_time ?r)))
+    :condition (and 
+        (at start (in ?g ?c))
+        (at start (equip ?r ?c))
+        (at start (not(carrying ?r)))
+        (over all (at ?c ?l))
+    )
+    :effect (and 
+        (at start (carrying ?r))
+        (at start (not(in ?g ?c)))
+        (at start (in ?g ?r))
+        (at end (decrease(robot_position_available ?c)1))
+        (at end (decrease(goods_position_available ?c)1))
+        (at end (not(equip ?r ?c)))
+        (at end (at ?r ?l))
+    )
+)
+
+(:durative-action move_robot
+    :parameters (?r - robot ?f - location ?t - location)
+    :duration (= ?duration (/(distance_land ?f?t)(speed ?r)))
+    :condition (and
+        (over all (not (= ?f ?t)))
+        (at start (at ?r ?f))
+    )
+    :effect (and
+        (at start (not(at ?r ?f)))
+        (at end (at ?r ?t))
+    )
+)
+
+(:durative-action move_car
+    :parameters (?c - car ?f - location ?t - location)
+    :duration (= ?duration (/(distance_land ?f?t)(speed ?c)))
+    :condition (and
+        (over all (not (= ?f ?t)))
+        (at start (at ?c ?f))
+    )
+    :effect (and
+        (at start (not(at ?c ?f)))
+        (at end (at ?c ?t))
+    )
+)
+
+(:durative-action move_UAV
+    :parameters (?u - UAV ?f - location ?t - location)
+    :duration (= ?duration (/(distance_air ?f?t)(speed ?u)))
+    :condition (and
+        (over all (not (= ?f ?t)))
+        (at start (at ?u ?f))
+    )
+    :effect (and
+        (at start (not(at ?u ?f)))
+        (at end (at ?u ?t))
     )
 )
 
