@@ -4,7 +4,7 @@
                   
                   Waterloo - position
                   Strand - position
-                  LONDON-EYE - position
+                  LONDON_EYE - position
                   China_Town - position
                   National_Gallery -position
                  
@@ -28,21 +28,21 @@
                (equip robot2 car2)  (not(carrying UAV1))
                (not(carrying robot1)) (not(carrying robot2)) 
 
-               (path Waterloo Strand) （path Strand Waterloo)
-               (path Waterloo LONDON-EYE) (path LONOND-EYE Waterloo)
+               (path Waterloo Strand) (path Strand Waterloo)
+               (path Waterloo LONDON_EYE) (path LONDON_EYE Waterloo)
                (path Strand National_Gallery) (path National_Gallery Strand)
                (path Strand China_Town) (path China_Town Strand)
                (path China_Town National_Gallery) (path National_Gallery China_Town)
 
                (=(weight package1)50) (=(weight package2)50) (=(weight package3)50) (=(weight package4)50)
                (=(distance_land Waterloo Strand)4000) (=(distance_land Strand Waterloo)4000)
-               (=(distance_land Waterloo LONDON-EYE)6000) (=(distance_land LONDON-EYE Waterloo)6000) 
+               (=(distance_land Waterloo LONDON_EYE)6000) (=(distance_land LONDON_EYE Waterloo)6000) 
                (=(distance_land Strand National_Gallery)5000) (=(distance_land National_Gallery Strand)5000)
                (=(distance_land Strand China_Town)15000) (=(distance_land China_Town Strand)15000) 
                (=(distance_land China_Town National_Gallery)7000) (=(distance_land National_Gallery China_Town)7000)
 
                (=(distance_air hub Waterloo)3900) (=(distance_air Waterloo hub)3900) 
-               (=(distance_air hub LONDON-EYE)5000) (=(distance_air LONDON-EYE hub)5000) 
+               (=(distance_air hub LONDON_EYE)5000) (=(distance_air LONDON_EYE hub)5000) 
                (=(distance_air hub Strand)3000) (=(distance_air Strand hub)3000) 
                (=(distance_air hub National_Gallery)2000) (=(distance_air Waterloo hub)2000) 
                (=(distance_air hub China_Town)3000) (=(distance_air China_Town hub)3000) ,
@@ -69,7 +69,7 @@
 
 
         (:goal (and  (at car1 Hub) (at car2 Hub)
-                (at package1 Waterloo) (at package2 Strand) (at package3 LONDON-EYE) (at package4 China_Town)
+                (at package1 Waterloo) (at package2 Strand) (at package3 LONDON_EYE) (at package4 China_Town)
                 (not(carrying UAV1)) (not(carrying robot1)) (not(carrying robot2))
                 (not(equip robot1 car1)) (not(equip robot2 car2))
                 )
