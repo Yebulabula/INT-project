@@ -1,6 +1,6 @@
 (define (problem CITYMANAGER)
         (:domain CITY_MANAGER)
-        (:objects Hub - location
+        (:objects Hub - hub
                   
                   Home1 - position
                   Home2 - position
@@ -15,17 +15,19 @@
                   package3 - goods
                   package4 - goods
                   
-                  UAV1 - carrier
+                  UAV1 - UAV
                   
-                  robot1 - carrier
-                  robot2 - carrier
+                  robot1 - robot
+                  robot2 - robot
+        )
                   
-
-        (:init (not(free car1)) (not(free car2)) (not(free UAV1)) (not(free robot1)) (not(free robot2)) (at car1 Hub) (at car2 Hub) (at package1 Hub)
+        (:init (free car1) (free car2) (free UAV1) (free robot1) (free robot2) (at car1 Hub) (at car2 Hub) (at package1 Hub)
                (at package2 Hub) (at package3 Hub) (at package4 Hub) (in package1 car1)
                (in package2 car1) (in package3 car2) (in package4 car2)  (equip robot1 car1)
                (equip robot2 car2)  (not(carrying UAV1))
-                (not(carrying robot1)) (not(carrying robot2)) 
+               (not(carrying robot1)) (not(carrying robot2)) 
+
+               (path )。。。
 
                (=(weight package1)50) (=(weight package2)50) (=(weight package3)50) (=(weight package4)50)
                (=(distance_land Home1 Home2)4000) (=(distance_land Home1 Home4)6000) (=(distance_land Home2 Home3)5000)
@@ -44,6 +46,7 @@
                (=(power_level car1)1000) (=(power_level car2)1000) (=(power_level UAV1)100) (=(power_level robot1)100)
                (=(power_level robot2)100)
         )
+
 
         (:goal (and  (at car1 Hub) (at car2 Hub)
                 (at package1 Home1) (at package2 Home2) (at package3 Home3) (at package4 Home4)
