@@ -21,6 +21,8 @@
     (equip ?r - robot ?c - car)
     ;carrier can load things
     (carrying ?c - carrier)
+    ;road between two location
+    (path ?l1?l2 - location)
 )
 
 (:functions
@@ -206,6 +208,7 @@
     :duration (= ?duration (/(distance_land ?f?t)(speed ?r)))
     :condition (and
         (over all (not (= ?f ?t)))
+        (over all(path ?f?t))
         (at start (at ?r ?f))
         (at start (>= (power_level ?r) 20)) 
     )
@@ -221,6 +224,7 @@
     :duration (= ?duration (/(distance_land ?f?t)(speed ?c)))
     :condition (and
         (over all (not (= ?f ?t)))
+        (over all(path ?f?t))
         (at start (at ?c ?f))
         (at start (>= (power_level ?c) 20)) 
     )
