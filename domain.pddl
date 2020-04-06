@@ -235,7 +235,7 @@
     )
 )
 
-(:durative-action deliver_and_return_UAV
+(:durative-action move_UAV
     :parameters (?u - UAV ?f - location ?t - location ?h - hub)
     :duration (= ?duration (/(distance_air ?f?t)(speed ?u)))
     :condition (and
