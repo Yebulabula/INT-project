@@ -69,7 +69,7 @@
 
 
         (:goal (and  (at car1 Hub) (at car2 Hub)
-                (at package1 Waterloo) (at package2 Strand) (at package3 LONDON_EYE) (at package4 China_Town)
+                (located package1 Waterloo) (located package2 Strand) (located package3 LONDON_EYE) (located package4 China_Town)
                 (not(carrying UAV1)) (not(carrying robot1)) (not(carrying robot2))
                 (not(equip robot1 car1)) (not(equip robot2 car2))
                 )
