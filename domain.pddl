@@ -112,8 +112,8 @@
     :effect (and 
         (at start (not(located ?g ?h)))
         (at start (carrying ?r))
-        (at start (decrease (goods_position_available ?c) 1))
-        (at start (decrease (power_level ?r) 5))
+        (at start (increase (goods_position_available ?c) 1))
+        (at start (increase (power_level ?r) 5))
         (at start (not(free ?c)))
         (at start (not(free ?r)))
         (at end (free ?r))
