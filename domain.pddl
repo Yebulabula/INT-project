@@ -2,7 +2,7 @@
 
 (define (domain CITY_MANAGER)
 
-(:requirements :typing :durative-actions:fluents:duration-inequalities:equality :negative-preconditions :disjunctive-preconditions)
+(:requirements :typing :durative-actions:fluents:duration-inequalities:equality :negative-preconditions )
 (:types 
         hub position - location
         vehicle goods - movable
@@ -40,7 +40,7 @@
             (goods_position_available ?c - car)   
             (robot_position_available ?c - car) 
             (max_robot_position ?c - car)
-            (charge_rate_in_hub ?v) ;recharge rate in hub
+            (charge_rate_in_hub ?v -vehicle) ;recharge rate in hub
             (power_level ?v -vehicle)
 )
 
@@ -119,7 +119,7 @@
     )
 )
 
-(:durative-action equip
+(:durative-action equip_humen
     :parameters (?r - robot ?c - car ?l - location)
     :duration (= ?duration 0.3)
     :condition (and 
@@ -150,11 +150,11 @@
         (at start (>= (power_level ?c) 10)) 
         (at start (<(robot_position_available ?c)(max_robot_position ?c)))
         (at start (not(carrying ?r)))
-        (at start (in ?r ?c))
+        (at start (equip ?r ?c))
         (over all (at ?c ?h))
     )
     :effect (and
-        (at start (not(in ?r ?c)))
+        (at start (not(equip ?r ?c)))
         (at start (decrease (power_level ?r) 1))
         (at start (not(free ?r)))
         (at end (free ?r))
@@ -241,9 +241,7 @@
     :condition (and
         (over all (not (= ?f ?t)))
         (at start (at ?u ?f))
-        (at start (or(and(= ?f ?h)(> (/(power_level ?u)(power_used_rate ?u)) (*(/(distance_land ?f?t)(speed ?u))2)))
-                  (and (not(= ?f ?h)) (> (/(power_level ?u)(power_used_rate ?u)) (/(distance_land ?f?t)(speed ?u))) (= ?t ?h) ))
-        )
+        (at start (>= (power_level ?u)20))
     )
     :effect (and
         (at start (not(at ?u ?f)))
@@ -251,7 +249,4 @@
         (at end (at ?u ?t))
     )
 )
-
-
-
 )
