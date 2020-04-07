@@ -22,8 +22,8 @@
                   robot2 - robot
         )
                   
-        (:init (free car1) (free car2) (free UAV1) (free robot1) (free robot2) (at car1 Hub) (at car2 Hub) (at package1 Hub)
-               (at package2 Hub) (at package3 Hub) (at package4 Hub) (in package1 car1)
+        (:init (free car1) (free car2) (free UAV1) (free robot1) (free robot2) (at car1 Hub) (at car2 Hub) (located package1 Hub)
+               (located package2 Hub) (located package3 Hub) (located package4 Hub) (in package1 car1)
                (in package2 car1) (in package3 car2) (in package4 car2)  (equip robot1 car1)
                (equip robot2 car2)  (not(carrying UAV1))
                (not(carrying robot1)) (not(carrying robot2)) 
