@@ -2,7 +2,7 @@
 
 (define (domain CITY_MANAGER)
 
-(:requirements :typing :durative-actions:fluents:duration-inequalities:equality :negative-preconditions)
+(:requirements :typing :durative-actions:fluents:duration-inequalities:equality :negative-preconditions :disjunctive-preconditions)
 (:types 
         hub position - location
         vehicle goods - movable
