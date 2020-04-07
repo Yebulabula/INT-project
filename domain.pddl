@@ -2,19 +2,22 @@
 
 (define (domain CITY_MANAGER)
 
-(:requirements :typing :durative-actions:fluents:duration-inequalities:equality :negative-preconditions )
+(:requirements :typing :durative-actions:fluents:duration-inequalities:equality :negative-preconditions :disjunctive-preconditions)
 (:types 
         hub position - location
         vehicle goods - movable
-        car carrier - vehicle
+        container carrier - vehicle
         UAV robot - carrier
+        car - container
 )
 
 (:predicates
     ;the vehicle is chargable 
     (free ?v - vehicle)
     ;the location of movable object
-    (at ?m - movable ?l - location)
+    (at ?v - vehicle ?l - location)
+        ;the location of movable object
+    (located ?g - goods ?l - location)
     ;goods in the vehicle
     (in ?g - goods ?v - vehicle)
     ;car equip robot
@@ -40,7 +43,7 @@
             (goods_position_available ?c - car)   
             (robot_position_available ?c - car) 
             (max_robot_position ?c - car)
-            (charge_rate_in_hub ?v -vehicle) ;recharge rate in hub
+            (charge_rate_in_hub ?v - vehicle) ;recharge rate in hub
             (power_level ?v -vehicle)
 )
 
@@ -60,8 +63,8 @@
 )
 
 (:durative-action charge_in_car
-    :parameters (?c - car　?r - robot ?l1?l2 - location)
-    :duration (= ?duration (/(distance_land ?l1 ?l2)　(speed ?c)))
+    :parameters (?c - car ?r - robot ?l1 ?l2 - location)
+    :duration (= ?duration (/(distance_land ?l1 ?l2) (speed ?c)))
     :condition (and
         (at start(< (power_level ?r)100))
         (over all (free ?r))
@@ -80,11 +83,11 @@
         (at start (not(carrying ?c)))
         (at start (>= (power_level ?c) 10)) 
         (at start (>=(carrying_capacity ?c)(weight ?g)))
-        (at start (at ?g ?h))
+        (at start (located ?g ?h))
         (over all (at ?c ?h))
     )
     :effect (and 
-        (at start (not(at ?g ?h)))
+        (at start (not(located ?g ?h)))
         (at start (carrying ?c))
         (at start (not(free ?c)))
         (at end (free ?c))
@@ -101,12 +104,12 @@
         (at start (>= (power_level ?c) 10)) 
         (at start (>=(carrying_capacity ?r)(weight ?g)))
         (at start (>=(goods_position_available ?c)1))
-        (at start (at ?g ?h))
+        (at start (located ?g ?h))
         (over all (at ?c ?h))
         (over all (at ?r ?h))
     )
     :effect (and 
-        (at start (not(at ?g ?h)))
+        (at start (not(located ?g ?h)))
         (at start (carrying ?r))
         (at start (decrease (goods_position_available ?c) 1))
         (at start (decrease (power_level ?r) 5))
@@ -119,7 +122,7 @@
     )
 )
 
-(:durative-action equip_humen
+(:durative-action equip_robot
     :parameters (?r - robot ?c - car ?l - location)
     :duration (= ?duration 0.3)
     :condition (and 
@@ -176,7 +179,7 @@
     :effect (and 
         (at start (not(in ?g ?c)))
         (at end (not(carrying ?c)))
-        (at end (at ?g ?l))
+        (at end (located ?g ?l))
     )
 )
 
@@ -203,8 +206,8 @@
     )
 )
 
-(:durative-action move_robot
-    :parameters (?r - robot ?f - location ?t - location)
+(:durative-action move_robot_or_car
+    :parameters (?r - (either robot car) ?f - location ?t - location)
     :duration (= ?duration (/(distance_land ?f?t)(speed ?r)))
     :condition (and
         (over all (not (= ?f ?t)))
@@ -219,22 +222,6 @@
     )
 )
 
-(:durative-action move_car
-    :parameters (?c - car ?f - location ?t - location)
-    :duration (= ?duration (/(distance_land ?f?t)(speed ?c)))
-    :condition (and
-        (over all (not (= ?f ?t)))
-        (over all(path ?f?t))
-        (at start (at ?c ?f))
-        (at start (>= (power_level ?c) 20)) 
-    )
-    :effect (and
-        (at start (not(at ?c ?f)))
-        (decrease (power_level ?c)(* (power_used_rate ?c)#t))
-        (at end (at ?c ?t))
-    )
-)
-
 (:durative-action move_UAV
     :parameters (?u - UAV ?f - location ?t - location ?h - hub)
     :duration (= ?duration (/(distance_air ?f?t)(speed ?u)))
@@ -242,6 +229,9 @@
         (over all (not (= ?f ?t)))
         (at start (at ?u ?f))
         (at start (>= (power_level ?u)20))
+        ; (at start (or(and(= ?f ?h)(> (/(power_level ?u)(power_used_rate ?u)) (*(/(distance_land ?f?t)(speed ?u))2)))
+        ;           (and (not(= ?f ?h)) (> (/(power_level ?u)(power_used_rate ?u)) (/(distance_land ?f?t)(speed ?u))) (= ?t ?h) ))
+        ; )
     )
     :effect (and
         (at start (not(at ?u ?f)))
@@ -249,4 +239,7 @@
         (at end (at ?u ?t))
     )
 )
+
+
+
 )
