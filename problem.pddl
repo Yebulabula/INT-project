@@ -1,4 +1,4 @@
-        (define (problem CITYMANAGER)
+ (define (problem CITYMANAGER)
                 (:domain CITY_MANAGER)
                 (:objects Hub1 - hub
                         
@@ -61,7 +61,7 @@
                 (=(load_time robot1)1)  (=(load_time robot2)1)  (=(load_time UAV1)1) 
                 (=(unload_time robot1)1)  (=(unload_time robot2)1)  (=(unload_time UAV1)1) 
 
-                (=(carrying_capacity UAV1)100) (=(carrying_capacity robot1)1) (=(carrying_capacity robot2)1) 
+                (=(carrying_capacity UAV1)100) (=(carrying_capacity robot1)60) (=(carrying_capacity robot2)60) 
 
                 (=(goods_position_available car1)3) (=(goods_position_available car2)3) 
                 (=(goods_position_available robot1)1) (=(goods_position_available robot2)1)
@@ -82,7 +82,7 @@
 
 
                 (:goal (and  
-                        (at package1 Waterloo) (at package2 Strand) (at package3 LONDON_EYE) 
+                        (at package1 Waterloo) (at robot1 Waterloo) (at package2 Strand) (at package3 LONDON_EYE) 
                         )
                 )
                 (:metric 
