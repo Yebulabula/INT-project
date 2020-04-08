@@ -230,14 +230,34 @@
     )
 )
 
-(:durative-action move_UAV
-    :parameters (?u - UAV ?f - location ?t - location ?h - hub)
+;move to position
+(:durative-action transport_UAV
+    :parameters (?u - UAV ?f - hub ?t - location)
     :duration (= ?duration (/(distance_air ?f?t)(speed ?u)))
     :condition (and
         (over all (not (= ?f ?t)))
         (at start (free ?u))
         (at start (at ?u ?f))
-        (at start (>= (power_level ?u)20))
+        (at start (> (/(power_level ?u)(power_used_rate ?u)) (*(/(distance_air ?f?t)(speed ?u))2)))
+    )
+    :effect (and
+        (at start (not(at ?u ?f)))
+        (at start (not(free ?u)))
+        (at end (free ?u))
+        (at end (at ?u ?t))
+        (decrease (power_level ?u)(* (power_used_rate ?u)#t))
+    )
+)
+
+;return to one of hubs
+(:durative-action return_UAV
+    :parameters (?u - UAV ?f - location ?t - hub)
+    :duration (= ?duration (/(distance_air ?f?t)(speed ?u)))
+    :condition (and
+        (over all (not (= ?f ?t)))
+        (at start (free ?u))
+        (at start (at ?u ?f))
+        (at start (> (/(power_level ?u)(power_used_rate ?u)) (/(distance_air ?f?t)(speed ?u))))
     )
     :effect (and
         (at start (not(at ?u ?f)))
