@@ -33,13 +33,19 @@
                 (path Hub1 LONDON_EYE) (path LONDON_EYE Hub1)
                 (path Hub1 National_Gallery) (path National_Gallery Hub1)
                 (path Hub1 China_Town) (path China_Town Hub1)
+                
                 (path Waterloo Strand) (path Strand Waterloo)
                 (path Waterloo LONDON_EYE) (path LONDON_EYE Waterloo)
                 (path Strand National_Gallery) (path National_Gallery Strand)
                 (path Strand China_Town) (path China_Town Strand)
                 (path China_Town National_Gallery) (path National_Gallery China_Town)
+                
+                (=(distance_land Hub1 Waterloo)40) (=(distance_land Waterloo Hub1)40) 
+                (=(distance_land Hub1 Strand)40) (=(distance_land Strand Hub1)40) 
+                (=(distance_land Hub1 LONDON_EYE)40) (=(distance_land LONDON_EYE Hub1)40) 
+                (=(distance_land Hub1 National_Gallery)40) (=(distance_land National_Gallery Hub1)40) 
+                (=(distance_land Hub1 China_Town)40) (=(distance_land China_Town Hub1)40) 
 
-                (=(weight package1)50) (=(weight package2)50) (=(weight package3)50) (=(weight package4)50)
                 (=(distance_land Waterloo Strand)40) (=(distance_land Strand Waterloo)40)
                 (=(distance_land Waterloo LONDON_EYE)60) (=(distance_land LONDON_EYE Waterloo)60) 
                 (=(distance_land Strand National_Gallery)50) (=(distance_land National_Gallery Strand)50)
@@ -52,6 +58,8 @@
                 (=(distance_air Hub1 National_Gallery)20) (=(distance_air Waterloo Hub1)20) 
                 (=(distance_air Hub1 China_Town)30) (=(distance_air China_Town Hub1)30) 
 
+                (=(weight package1)50) (=(weight package2)50) (=(weight package3)50) (=(weight package4)50)
+                
                 (=(speed car1)60) (=(speed car2)70) (=(speed UAV1)30) (=(speed robot1)10) (=(speed robot2)10) 
 
                 (=(power_used_rate car1)20) (=(power_used_rate car2)21) (=(power_used_rate UAV1)30)
