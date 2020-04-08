@@ -25,7 +25,7 @@
                 (:init (free car1) (free car2) (free UAV1) (free robot1) (free robot2) (at car1 Hub1) (at car2 Hub1) (at package1 Hub1)
                 (at package2 Hub1) (at package3 Hub1) (at package4 Hub1)
 
-                (at UAV1 Hub1)
+                (at UAV1 Hub1) (at robot1 Hub1) (at robot2 Hub1)
 
 
                 (path Hub1 Waterloo)  (path Waterloo Hub1)
