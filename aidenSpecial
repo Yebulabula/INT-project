@@ -64,13 +64,13 @@
     :parameters (?c - car ?r - robot ?l1 ?l2 - location)
     :duration (= ?duration (/(distance_land ?l1 ?l2) (speed ?c)))
     :condition (and
-        (at start (not(free ?v)))
-        (at end (free ?v))
         (at start(< (power_level ?r)100))
         (over all (free ?r))
         (over all (equip ?r ?c))
     )
     :effect (and 
+        (at start (not(free ?v)))
+        (at end (free ?v))
         (increase (power_level ?r)#t)
         (decrease (power_level ?c)#t)
     )
@@ -135,7 +135,7 @@
     :effect (and 
         (at start (not(at ?r ?l)))
         (at start (decrease (power_level ?r) 1))
-        (at start (decrease (goods_position_available ?c) 1))
+        (at start (decrease (robot_position_available ?c) 1))
         (at start (not(free ?r)))
         (at end (free ?r))
         (at end (equip ?r ?c))
@@ -143,7 +143,7 @@
 )
 
 (:durative-action unequip
-    :parameters (?r - robot ?c - car ?l - location)
+    :parameters (?r - robot ?c - car ?h - hub)
     :duration (= ?duration 0.3)
     :condition (and 
         (at start (>= (power_level ?r) 10)) 
@@ -152,7 +152,7 @@
         (at start (equip ?r ?c))
         (at start (free ?r))
         (at start (free ?c))
-        (over all (at ?c ?l))
+        (over all (at ?c ?h))
     )
     :effect (and
         (at start (decrease (power_level ?r) 1))
@@ -161,9 +161,9 @@
         (at start (not(free ?c)))
         (at end (free ?c))
         (at end (free ?r))
-        (at end (increase (goods_position_available ?c) 1))
+        (at end (increase (robot_position_available ?c) 1))
         (at end (not(equip ?r ?c)))
-        (at end (at ?r ?l))
+        (at end (at ?r ?h))
     )
 )
 
