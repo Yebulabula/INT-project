@@ -47,10 +47,10 @@
 
 (:durative-action charge_in_hub
     :parameters (?h - hub ?v - vehicle)
-    :duration (= ?duration (/ (- 80 (power_level ?v)) (charge_rate_in_hub ?v)))
+    :duration (= ?duration 2)
     :condition (and
         (at start(< (power_level ?v) 80))
-        (over all (free ?v))
+        (at start (free ?v))
         (over all (at ?v ?h))
     )
     :effect (and 
@@ -65,14 +65,14 @@
     :duration (= ?duration (/(distance_land ?l1 ?l2) (speed ?c)))
     :condition (and
         (at start(< (power_level ?r)100))
-        (over all (free ?r))
+        (at start (free ?r))
         (over all (equip ?r ?c))
     )
     :effect (and 
-        (at start (not(free ?v)))
-        (at end (free ?v))
+        (at start (not(free ?r)))
+        (at end (free ?r))
         (increase (power_level ?r)#t)
-        (decrease (power_level ?c)#t)
+        (decrease (power_level ?c)(* 0.1 #t))
     )
 )
 
@@ -226,11 +226,10 @@
         (at start (not(free ?r)))
         (at end (free ?r))
         (at end (at ?r ?t))
-        (decrease (power_level ?r)(* (power_used_rate ?r)#t))
+        (at end (decrease (power_level ?r)(*(power_used_rate ?r)?duration)))
     )
 )
 
-;move to position
 (:durative-action transport_UAV
     :parameters (?u - UAV ?f - hub ?t - location)
     :duration (= ?duration (/(distance_air ?f?t)(speed ?u)))
@@ -238,14 +237,14 @@
         (over all (not (= ?f ?t)))
         (at start (free ?u))
         (at start (at ?u ?f))
-        (at start (> (/(power_level ?u)(power_used_rate ?u)) (*(/(distance_air ?f?t)(speed ?u))2)))
+        (at start (>= (/(power_level ?u)(power_used_rate ?u)) (*(/(distance_air ?f?t)(speed ?u))2)))
     )
     :effect (and
         (at start (not(at ?u ?f)))
         (at start (not(free ?u)))
         (at end (free ?u))
         (at end (at ?u ?t))
-        (decrease (power_level ?u)(* (power_used_rate ?u)#t))
+        (at end (decrease (power_level ?u)(*(power_used_rate ?u)?duration)))
     )
 )
 
@@ -257,14 +256,14 @@
         (over all (not (= ?f ?t)))
         (at start (free ?u))
         (at start (at ?u ?f))
-        (at start (> (/(power_level ?u)(power_used_rate ?u)) (/(distance_air ?f?t)(speed ?u))))
+        (at start (>= (/(power_level ?u)(power_used_rate ?u)) (/(distance_air ?f?t)(speed ?u))))
     )
     :effect (and
         (at start (not(at ?u ?f)))
         (at start (not(free ?u)))
         (at end (free ?u))
         (at end (at ?u ?t))
-        (decrease (power_level ?u)(* (power_used_rate ?u)#t))
+        (at end (decrease (power_level ?u)(*(power_used_rate ?u)?duration)))
     )
 )
 
