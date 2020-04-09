@@ -38,7 +38,6 @@
             (power_level ?v -vehicle)
             (goods_position_available ?c - vehicle)   
             (robot_position_available ?c - car) 
-            (max_robot_position ?c - car)
             ;the max weight of one goods
             (carrying_capacity ?c -carrier)
 )
@@ -102,7 +101,6 @@
     :condition (and 
         (at start (>=(goods_position_available ?r)1))
         (at start (>= (power_level ?r) 10)) 
-        (at start (>= (power_level ?c) 10)) 
         (at start (>=(carrying_capacity ?r)(weight ?g)))
         (at start (>=(goods_position_available ?c)1))
         (at start (free ?r))
@@ -126,7 +124,6 @@
     :condition (and 
         (at start (>=(robot_position_available ?c)1))
         (at start (>= (power_level ?r) 10)) 
-        (at start (>= (power_level ?c) 10)) 
         (at start (>=(goods_position_available ?r)1))
         (at start (at ?r ?l))
         (at start (free ?r))
@@ -147,8 +144,6 @@
     :duration (= ?duration 0.3)
     :condition (and 
         (at start (>= (power_level ?r) 10)) 
-        (at start (>= (power_level ?c) 10)) 
-        (at start (<(robot_position_available ?c)(max_robot_position ?c)))
         (at start (equip ?r ?c))
         (at start (free ?r))
         (at start (free ?c))
