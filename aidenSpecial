@@ -21,8 +21,6 @@
     (equip ?r - robot ?c - car)
     ;road between two location
     (path ?l1?l2 - location)
-    ;the car can go
-    (prepared ?c - car)
 )
 
 (:functions
@@ -52,7 +50,7 @@
     :duration (<= ?duration (/ (- 80 (power_level ?v)) (charge_rate_in_hub ?v)))
     :condition (and
         (at start(< (power_level ?v) 80))
-        (over all (free ?v))
+        (at start (free ?v))
         (over all (at ?v ?h))
     )
  :effect (and 
@@ -67,10 +65,12 @@
     :duration (<= ?duration 20)
     :condition (and
         (at start(< (power_level ?r)100))
-        (over all (free ?r))
+        (at start (free ?r))
         (over all (equip ?r ?c))
     )
     :effect (and 
+        (at start (not(free ?r)))
+        (at end (free ?r))
         (increase (power_level ?r)#t)
         (decrease (power_level ?c)(* 0.1 #t))
     )
@@ -138,17 +138,8 @@
         (at start (not(free ?r)))
         (at end (free ?r))
         (at end (equip ?r ?c))
-        (at end (equip ?r ?c))
-        (at end (equip ?r ?c))
     )
 )
-
-(:derived (prepared ?c - car)
-    (and
-        (<(robot_position_available ?c)(max_robot_position ?c))
-    )
-)
-
 
 (:durative-action unequip
     :parameters (?r - robot ?c - car ?h - hub)
@@ -236,8 +227,8 @@
     )
 )
 
-(:durative-action move_car
-    :parameters (?c - car ?f - location ?t - location)
+(:durative-action departure_car
+    :parameters (?c - car ?f - hub ?t - location)
     :duration (= ?duration (/(distance_land ?f?t)(speed ?c)))
     :condition (and
         (over all (not (= ?f ?t)))
@@ -245,7 +236,26 @@
         (at start (at ?c ?f))
         (at start (free ?c))
         (at start (>= (power_level ?c) 20))
-        (at start (prepared ?c))
+        (at start (<(robot_position_available ?c)(max_robot_position ?c)))
+    )
+    :effect (and
+        (at start (not(at ?c ?f)))
+        (at start (not(free ?c)))
+        (at end (free ?c))
+        (at end (at ?c ?t))
+        (at end (decrease (power_level ?c)(*(power_used_rate ?c)?duration)))
+    )
+)
+
+(:durative-action move_car
+    :parameters (?c - car ?f - position ?t - location)
+    :duration (= ?duration (/(distance_land ?f?t)(speed ?c)))
+    :condition (and
+        (over all (not (= ?f ?t)))
+        (at start (path ?f?t))
+        (at start (at ?c ?f))
+        (at start (free ?c))
+        (at start (>= (power_level ?c) 20))
     )
     :effect (and
         (at start (not(at ?c ?f)))
