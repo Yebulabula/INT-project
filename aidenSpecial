@@ -2,7 +2,7 @@
 
 (define (domain CITY_MANAGER)
 
-(:requirements :typing :durative-actions:fluents:duration-inequalities:equality )
+(:requirements :typing :durative-actions:fluents:duration-inequalities:equality  :conditional-effects)
 (:types 
         hub position - location
         vehicle goods - movable
@@ -21,6 +21,8 @@
     (equip ?r - robot ?c - car)
     ;road between two location
     (path ?l1?l2 - location)
+    ;the car can go
+    (prepared ?c - car)
 )
 
 (:functions
@@ -38,6 +40,7 @@
             (power_level ?v -vehicle)
             (goods_position_available ?c - vehicle)   
             (robot_position_available ?c - car) 
+            (max_robot_position ?c - car)
             ;the max weight of one goods
             (carrying_capacity ?c -carrier)
 )
@@ -100,7 +103,7 @@
     :duration (= ?duration (load_time ?c))
     :condition (and 
         (at start (>=(goods_position_available ?r)1))
-        (at start (>= (power_level ?r) 10)) 
+        (at start (>= (power_level ?r) 10))
         (at start (>=(carrying_capacity ?r)(weight ?g)))
         (at start (>=(goods_position_available ?c)1))
         (at start (free ?r))
@@ -117,6 +120,7 @@
         (at end (in ?g ?c))
     )
 )
+
 
 (:durative-action equip_robot
     :parameters (?r - robot ?c - car ?l - location)
@@ -136,6 +140,9 @@
         (at start (not(free ?r)))
         (at end (free ?r))
         (at end (equip ?r ?c))
+        (at end (equip ?r ?c))
+        (at end (equip ?r ?c))
+        (at end (prepared ?c))
     )
 )
 
@@ -159,6 +166,8 @@
         (at end (increase (robot_position_available ?c) 1))
         (at end (not(equip ?r ?c)))
         (at end (at ?r ?h))
+        (when (at end (>=(robot_position_available ?c)(max_robot_position ?c)))
+              (at end (not(prepared ?c))))
     )
 )
 
@@ -206,15 +215,15 @@
     )
 )
 
-(:durative-action move_robot_or_car
-    :parameters (?r - (either robot car) ?f - location ?t - location)
+(:durative-action move_robot
+    :parameters (?r - robot ?f - location ?t - location)
     :duration (= ?duration (/(distance_land ?f?t)(speed ?r)))
     :condition (and
         (over all (not (= ?f ?t)))
-        (over all(path ?f?t))
+        (at start (path ?f?t))
         (at start (at ?r ?f))
         (at start (free ?r))
-        (at start (>= (power_level ?r) 20)) 
+        (at start (>= (power_level ?r) 20))
     )
     :effect (and
         (at start (not(at ?r ?f)))
@@ -222,6 +231,26 @@
         (at end (free ?r))
         (at end (at ?r ?t))
         (at end (decrease (power_level ?r)(*(power_used_rate ?r)?duration)))
+    )
+)
+
+(:durative-action move_car
+    :parameters (?c - car ?f - location ?t - location)
+    :duration (= ?duration (/(distance_land ?f?t)(speed ?c)))
+    :condition (and
+        (over all (not (= ?f ?t)))
+        (at start (path ?f?t))
+        (at start (at ?c ?f))
+        (at start (free ?c))
+        (at start (>= (power_level ?c) 20))
+        (at start (prepared ?c))
+    )
+    :effect (and
+        (at start (not(at ?c ?f)))
+        (at start (not(free ?c)))
+        (at end (free ?c))
+        (at end (at ?c ?t))
+        (at end (decrease (power_level ?c)(*(power_used_rate ?c)?duration)))
     )
 )
 
