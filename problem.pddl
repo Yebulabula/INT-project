@@ -27,7 +27,7 @@
                 (at package2 Hub1) (at package3 Hub1) (at package4 Hub1)
 
                 (at robot1 Hub1) (at robot2 Hub1)
-
+                (at UAV1 Hub1)
 
                 (path Hub1 Strand)  (path Strand Hub1)
                 
@@ -81,13 +81,12 @@
 
                 (=(power_level car1)1000) (=(power_level car2)1000) (=(power_level UAV1)100) (=(power_level robot1)100)
                 (=(power_level robot2)100) 
-                
 
                 )
 
 
                 (:goal (and  
-                        (at package1 China_Town) (at package2 Strand) (at package3 National_Gallery) 
+                       (at package1 China_Town) (at package2 Strand) (at package3 LONDON_EYE) (at package4 National_Gallery)
                         )
                 )
                 (:metric 
