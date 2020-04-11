@@ -65,10 +65,14 @@
     :parameters (?c - car ?r - robot)
     :duration (<= ?duration 20)
     :condition (and
-        (at start(< (power_level ?r)100))
+        (at start (< (power_level ?r)100))
+        (at start (> (power_level ?c)0))
+        (at start (free ?c))
         (over all (equip ?r ?c))
     )
     :effect (and 
+        (at start (not(free ?c)))
+        (at end (free ?c))
         (at start (increase (power_level ?r)(*(charge_rate_in_car ?r)?duration)))
         (at start (decrease (power_level ?c)(*(*(charge_rate_in_car ?r)?duration)0.1)))
     )
