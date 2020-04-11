@@ -35,6 +35,7 @@
             (load_time ?v -vehicle)
             (unload_time ?v -vehicle)   
             (charge_rate_in_hub ?v - vehicle) ;recharge rate in hub
+            (charge_rate_in_car ?r - robot)
             (power_level ?v -vehicle)
             (goods_position_available ?c - vehicle)   
             (robot_position_available ?c - car) 
@@ -42,7 +43,6 @@
             ;the max weight of one goods
             (carrying_capacity ?c -carrier)
 )
-
 
 
 (:durative-action charge_in_hub
@@ -64,15 +64,16 @@
     :parameters (?c - car ?r - robot)
     :duration (<= ?duration 20)
     :condition (and
-        (at start(< (power_level ?r)100))
-        (at start (free ?r))
+        (at start (< (power_level ?r)100))
+        (at start (> (power_level ?c)0))
+        (at start (free ?c))
         (over all (equip ?r ?c))
     )
     :effect (and 
-        (at start (not(free ?r)))
-        (at end (free ?r))
-        (increase (power_level ?r)#t)
-        (decrease (power_level ?c)(* 0.1 #t))
+        (at start (not(free ?c)))
+        (at end (free ?c))
+        (at start (increase (power_level ?r)(*(charge_rate_in_car ?r)?duration)))
+        (at start (decrease (power_level ?c)(*(*(charge_rate_in_car ?r)?duration)0.1)))
     )
 )
 
@@ -311,6 +312,7 @@
         (over all (not (= ?f ?t)))
         (at start (free ?u))
         (at start (at ?u ?f))
+        (at start (<(goods_position_available ?u)(max_goods_position ?u)))
         (at start (>= (/(power_level ?u)(power_used_rate ?u)) (*(/(distance_air ?f?t)(speed ?u))2)))
     )
     :effect (and
