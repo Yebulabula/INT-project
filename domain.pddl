@@ -56,8 +56,7 @@
     :effect (and 
         (at start (not(free ?v)))
         (at end (free ?v))
-        (at end
-        (increase (power_level ?v)(* (charge_rate_in_hub ?v)?duration)))    
+        (at end (increase (power_level ?v)(* (charge_rate_in_hub ?v)?duration)))    
     )
 )
 
@@ -83,7 +82,7 @@
     :duration (= ?duration (load_time ?c))
     :condition (and 
         (at start (>=(goods_position_available ?c)1))
-        (at start (>= (power_level ?c) 10))
+        (at start (>= (power_level ?c) 2))
         (at start (>=(carrying_capacity ?c)(weight ?g)))
         (at start (at ?g ?h))
         (at start (free ?c))
@@ -93,6 +92,7 @@
         (at start (not(at ?g ?h)))
         (at start (not(free ?c)))
         (at start (decrease (goods_position_available ?c) 1))
+        (at start (decrease (power_level ?c) 2))
         (at end (free ?c))
         (at end (in ?g ?c))
     )
@@ -103,7 +103,7 @@
     :duration (= ?duration (load_time ?c))
     :condition (and 
         (at start (>=(goods_position_available ?r)1))
-        (at start (>= (power_level ?r) 10))
+        (at start (>= (power_level ?r) 4))
         (at start (>=(carrying_capacity ?r)(weight ?g)))
         (at start (>=(goods_position_available ?c)1))
         (at start (free ?r))
@@ -114,7 +114,7 @@
     :effect (and 
         (at start (not(at ?g ?h)))
         (at start (decrease (goods_position_available ?c) 1))
-        (at start (decrease (power_level ?r) 5))
+        (at start (decrease (power_level ?r) 4))
         (at start (not(free ?r)))
         (at end (free ?r))
         (at end (in ?g ?c))
@@ -127,7 +127,7 @@
     :duration (= ?duration 0.2)
     :condition (and 
         (at start (>=(robot_position_available ?c)1))
-        (at start (>= (power_level ?r) 10)) 
+        (at start (>= (power_level ?r) 1)) 
         (at start (>=(goods_position_available ?r)1))
         (at start (at ?r ?l))
         (at start (free ?r))
@@ -147,7 +147,7 @@
     :parameters (?r - robot ?c - car ?h - hub)
     :duration (= ?duration 0.2)
     :condition (and 
-        (at start (>= (power_level ?r) 10)) 
+        (at start (>= (power_level ?r) 1)) 
         (at start (equip ?r ?c))
         (at start (free ?r))
         (at start (free ?c))
@@ -177,7 +177,9 @@
     :effect (and 
         (at start (not(in ?g ?c)))
         (at start (not(free ?c)))
+        (at start (decrease (power_level ?c) 2))
         (at end (free ?c))
+        
         (at end (increase (goods_position_available ?c) 1))
         (at end (at ?g ?l))
     )
@@ -188,8 +190,7 @@
     :duration (= ?duration (+(unload_time ?c)(load_time ?r)))
     :condition (and 
         (at start (in ?g ?c))
-        (at start (>= (power_level ?c) 2))
-        (at start (>= (power_level ?r) 2))
+        (at start (>= (power_level ?r) 5))
         (at start (equip ?r ?c))
         (at start (>=(goods_position_available ?r)1))
         (over all (at ?c ?l))
@@ -218,7 +219,7 @@
        (at start (path ?f?t))
        (at start (at ?r ?f))
        (at start (free ?r))
-       (at start (>= (power_level ?r) 20))
+       (at start (>= (/(power_level ?r)(power_used_rate ?r)) (/(distance_land ?f?t)(speed ?r))))
    )
    :effect (and
        (at start (not(at ?r ?f)))
@@ -238,7 +239,7 @@
         (at start (path ?f?t))
         (at start (at ?c ?f))
         (at start (free ?c))
-        (at start (>= (power_level ?c) 20))
+        (at start (>= (/(power_level ?c)(power_used_rate ?c)) (*(/(distance_land ?f?t)(speed ?c))2)))
         (at start (<(robot_position_available ?c)(max_robot_position ?c)))
     )
     :effect (and
