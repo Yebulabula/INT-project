@@ -47,16 +47,17 @@
 
 (:durative-action charge_in_hub
     :parameters (?h - hub ?v - vehicle)
-    :duration (<= ?duration (/ (- 80 (power_level ?v)) (charge_rate_in_hub ?v)))
+    :duration (<= ?duration 5)
     :condition (and
-        (at start(< (power_level ?v) 80))
         (at start (free ?v))
+        (over all(< (power_level ?v)100))
         (over all (at ?v ?h))
     )
- :effect (and 
+    :effect (and 
         (at start (not(free ?v)))
         (at end (free ?v))
-        (increase (power_level ?v)(* (charge_rate_in_hub ?v)#t))
+        (at end
+        (increase (power_level ?v)(* (charge_rate_in_hub ?v)?duration)))    
     )
 )
 
@@ -64,16 +65,16 @@
     :parameters (?c - car ?r - robot)
     :duration (<= ?duration 20)
     :condition (and
-        (at start (< (power_level ?r)100))
-        (at start (> (power_level ?c)0))
-        (at start (free ?c))
+        (over all (< (power_level ?r)100))
+        (at start(free ?r))
+        (over all (> (power_level ?c)10))
         (over all (equip ?r ?c))
     )
     :effect (and 
-        (at start (not(free ?c)))
-        (at end (free ?c))
-        (at start (increase (power_level ?r)(*(charge_rate_in_car ?r)?duration)))
-        (at start (decrease (power_level ?c)(*(*(charge_rate_in_car ?r)?duration)0.1)))
+        (at start(not(free ?r)))
+        (at end (increase (power_level ?r)(*(charge_rate_in_car ?r)?duration)))
+        (at end (decrease (power_level ?c)(*(*(charge_rate_in_car ?r)?duration)0.1)))
+        (at end(free ?r))
     )
 )
 
