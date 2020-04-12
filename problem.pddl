@@ -36,19 +36,19 @@
                 (path Strand China_Town) (path China_Town Strand)
                 (path China_Town National_Gallery) (path National_Gallery China_Town)
                 
-                (=(distance_land Hub1 Waterloo)200) (=(distance_land Waterloo Hub1)200) 
+                (=(distance_land Hub1 Waterloo)50) (=(distance_land Waterloo Hub1)50) 
 
-                (=(distance_land Waterloo Strand)140) (=(distance_land Strand Waterloo)140)
+                (=(distance_land Waterloo Strand)110) (=(distance_land Strand Waterloo)110)
                 (=(distance_land Waterloo LONDON_EYE)70) (=(distance_land LONDON_EYE Waterloo)70) 
-                (=(distance_land Strand National_Gallery)500) (=(distance_land National_Gallery Strand)500)
-                (=(distance_land Strand China_Town)150) (=(distance_land China_Town Strand)150) 
-                (=(distance_land China_Town National_Gallery)70) (=(distance_land National_Gallery China_Town)70)
+                (=(distance_land Strand National_Gallery)100) (=(distance_land National_Gallery Strand)100)
+                (=(distance_land Strand China_Town)50) (=(distance_land China_Town Strand)50) 
+                (=(distance_land China_Town National_Gallery)130) (=(distance_land National_Gallery China_Town)130)
 
-                (=(distance_air Hub1 Waterloo)120) (=(distance_air Waterloo Hub1)120) 
-                (=(distance_air Hub1 LONDON_EYE)100) (=(distance_air LONDON_EYE Hub1)100) 
+                (=(distance_air Hub1 Waterloo)70) (=(distance_air Waterloo Hub1)70) 
+                (=(distance_air Hub1 LONDON_EYE)90) (=(distance_air LONDON_EYE Hub1)90) 
                 (=(distance_air Hub1 Strand)50) (=(distance_air Strand Hub1)50) 
-                (=(distance_air Hub1 National_Gallery)200) (=(distance_air Waterloo Hub1)200) 
-                (=(distance_air Hub1 China_Town)300) (=(distance_air China_Town Hub1)300) 
+                (=(distance_air Hub1 National_Gallery)80) (=(distance_air Waterloo Hub1)80) 
+                (=(distance_air Hub1 China_Town)100) (=(distance_air China_Town Hub1)100) 
 
                 ; max total movement for car:1000km
                 ; max total movement for UAV: 200km
@@ -56,7 +56,7 @@
                  
                 (=(weight package1)50) (=(weight package2)50) (=(weight package3)100) (=(weight package4)100) (=(weight package5)50)
                 
-                (=(speed car1)150) (=(speed car2)150) (=(speed UAV1)20) (=(speed robot1)60) (=(speed robot2)60) 
+                (=(speed car1)150) (=(speed car2)150) (=(speed UAV1)100) (=(speed robot1)60) (=(speed robot2)60) 
 
                 (=(power_used_rate car1)12) (=(power_used_rate car2)12) (=(power_used_rate UAV1)30)
                 (=(power_used_rate robot1)10) (=(power_used_rate robot2)10)
@@ -85,7 +85,7 @@
 
 
                 (:goal (and  
-                        (at package1 China_Town)(at package2 Strand) (at package3 Waterloo) (at package4 National_Gallery) (at package5 Waterloo)
+                        (at package1 China_Town)(at package2 Strand) (at package3 Waterloo) (at package4 National_Gallery) (at package5 Waterloo) 
                         )
                 )
                 (:metric 
