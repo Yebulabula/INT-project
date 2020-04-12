@@ -125,7 +125,7 @@
 
 (:durative-action equip_robot
     :parameters (?r - robot ?c - car ?l - location)
-    :duration (= ?duration 0.3)
+    :duration (= ?duration 0.2)
     :condition (and 
         (at start (>=(robot_position_available ?c)1))
         (at start (>= (power_level ?r) 10)) 
@@ -146,7 +146,7 @@
 
 (:durative-action unequip
     :parameters (?r - robot ?c - car ?h - hub)
-    :duration (= ?duration 0.3)
+    :duration (= ?duration 0.2)
     :condition (and 
         (at start (>= (power_level ?r) 10)) 
         (at start (equip ?r ?c))
