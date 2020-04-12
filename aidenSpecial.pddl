@@ -37,8 +37,7 @@
             (charge_rate_in_hub ?v - vehicle) ;recharge rate in hub
             (charge_rate_in_car ?r - robot)
             (power_level ?v -vehicle)
-            (goods_position_available ?v - vehicle)
-            (max_goods_position ?v - vehicle)   
+            (goods_position_available ?v - vehicle) 
             (robot_position_available ?c - car) 
             (max_robot_position ?c - car)
             ;the max weight of one goods
@@ -277,7 +276,6 @@
         (over all (not (= ?f ?t)))
         (at start (free ?u))
         (at start (at ?u ?f))
-        (at start (<(goods_position_available ?u)(max_goods_position ?u)))
         (at start (>= (/(power_level ?u)(power_used_rate ?u)) (*(/(distance_air ?f?t)(speed ?u))2)))
     )
     :effect (and
