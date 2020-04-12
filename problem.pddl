@@ -73,9 +73,6 @@
                 (=(goods_position_available robot1)1) (=(goods_position_available robot2)1)
                 (=(goods_position_available UAV1)1)
                 
-                (=(max_goods_position car1)3) (=(max_goods_position car2)3)
-                (=(max_goods_position robot1)1) (=(max_goods_position robot2)1)
-                (=(max_goods_position UAV1)1)
 
                 (=(robot_position_available car1)2) (=(robot_position_available car2)2) 
 
