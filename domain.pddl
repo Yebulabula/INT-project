@@ -259,7 +259,7 @@
         (at start (path ?f?t))
         (at start (at ?c ?f))
         (at start (free ?c))
-        (at start (>= (power_level ?c) 20))
+        (at start (>= (/(power_level ?c)(power_used_rate ?c)) (/(distance_land ?f?t)(speed ?c))))
     )
     :effect (and
         (at start (not(at ?c ?f)))
