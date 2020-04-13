@@ -51,7 +51,7 @@
                 (=(distance_air Hub1 China_Town)100) (=(distance_air China_Town Hub1)100) 
 
                 ; max total movement for car:1000km
-                ; max total movement for UAV: 200km
+                ; max total movement for UAV: 400km
                 ; max total movement for robot: 500km
                  
                 (=(weight package1)50) (=(weight package2)50) (=(weight package3)100) (=(weight package4)100) (=(weight package5)50)
