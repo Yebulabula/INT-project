@@ -2,7 +2,7 @@
 
 (define (domain CITY_MANAGER)
 
-    (:requirements :typing :durative-actions :fluents:duration-inequalities :equality)
+    (:requirements :typing :durative-actions :fluents :duration-inequalities :equality)
     (:types 
         hub position - location
         vehicle goods - movable
@@ -11,7 +11,7 @@
     )
 
     (:predicates
-        ;the vehicle is chargable or moveable
+        ;the vehicle is chargeable or moveable
         (free ?v - vehicle)
         ;the location of movable object
         (at ?v - movable ?l - location)
