@@ -24,39 +24,40 @@
                 )
                         
                 (:init (free car1) (free car2) (free UAV1) (free robot1) (free robot2) (at car1 Hub1)  (at package1 Hub1)
-                (at package2 Hub1) (at package3 Hub1) (at package4 Hub1) (at package5 Hub1) 
+                (at package2 Hub1) (at package3 Hub1) (at package4 Hub1) (at package5 Hub1)
 
                 (at UAV1 Hub1) (at robot1 Hub1) (at robot2 Hub1) (at car2 Hub1)
                 
                 (path Hub1 Waterloo)  (path Waterloo Hub1)
+                (path Hub1 China_Town) (path China_Town Hub1)
                 
                 (path Waterloo Strand) (path Strand Waterloo)
                 (path Waterloo LONDON_EYE) (path LONDON_EYE Waterloo)
                 (path Strand National_Gallery) (path National_Gallery Strand)
                 (path Strand China_Town) (path China_Town Strand)
-                (=(total_power)0)
+                (path China_Town National_Gallery) (path National_Gallery China_Town)
                 
-                (=(distance_land Hub1 Waterloo)100) (=(distance_land Waterloo Hub1)100) 
+                (=(distance_land Hub1 Waterloo)50) (=(distance_land Waterloo Hub1)50) 
+                (=(distance_land Hub1 China_Town)120) (=(distance_land China_Town Hub1)120) 
+                (=(distance_land Waterloo Strand)200) (=(distance_land Strand Waterloo)200)
+                (=(distance_land Waterloo LONDON_EYE)70) (=(distance_land LONDON_EYE Waterloo)70) 
+                (=(distance_land Strand National_Gallery)60) (=(distance_land National_Gallery Strand)60)
+                (=(distance_land Strand China_Town)50) (=(distance_land China_Town Strand)50) 
+                (=(distance_land China_Town National_Gallery)130) (=(distance_land National_Gallery China_Town)130)
 
-                (=(distance_land Waterloo Strand)220) (=(distance_land Strand Waterloo)220)
-                (=(distance_land Waterloo LONDON_EYE)140) (=(distance_land LONDON_EYE Waterloo)140) 
-                (=(distance_land Strand National_Gallery)110) (=(distance_land National_Gallery Strand)110)
-                (=(distance_land Strand China_Town)70) (=(distance_land China_Town Strand)70)
-                
-
-                (=(distance_air Hub1 Waterloo)80) (=(distance_air Waterloo Hub1)80) 
+                (=(distance_air Hub1 Waterloo)110) (=(distance_air Waterloo Hub1)110) 
                 (=(distance_air Hub1 LONDON_EYE)90) (=(distance_air LONDON_EYE Hub1)90) 
-                (=(distance_air Hub1 Strand)50) (=(distance_air Strand Hub1)50) 
-                (=(distance_air Hub1 National_Gallery)80) (=(distance_air Waterloo Hub1)80) 
-                (=(distance_air Hub1 China_Town)100) (=(distance_air China_Town Hub1)100) 
+                (=(distance_air Hub1 Strand)100) (=(distance_air Strand Hub1)100) 
+                (=(distance_air Hub1 National_Gallery)120) (=(distance_air National_Gallery Hub1)120) 
+                (=(distance_air Hub1 China_Town)50) (=(distance_air China_Town Hub1)50) 
 
                 ; max total movement for car:1000km
-                ; max total movement for UAV: 200km
+                ; max total movement for UAV: 400km
                 ; max total movement for robot: 500km
                  
-                (=(weight package1)50) (=(weight package2)50) (=(weight package3)50) (=(weight package4)50) (=(weight package5)50) 
+                (=(weight package1)50) (=(weight package2)50) (=(weight package3)100) (=(weight package4)100) (=(weight package5)50)
                 
-                (=(speed car1)150) (=(speed car2)150) (=(speed UAV1)100) (=(speed robot1)50) (=(speed robot2)50) 
+                (=(speed car1)150) (=(speed car2)150) (=(speed UAV1)100) (=(speed robot1)60) (=(speed robot2)60) 
 
                 (=(power_used_rate car1)12) (=(power_used_rate car2)12) (=(power_used_rate UAV1)30)
                 (=(power_used_rate robot1)10) (=(power_used_rate robot2)10)
@@ -71,11 +72,13 @@
                 (=(goods_position_available robot1)1) (=(goods_position_available robot2)1)
                 (=(goods_position_available UAV1)1)
 
-                (=(robot_position_available car1)2) (=(robot_position_available car2)2) 
-
                 (=(max_goods_position car1)3) (=(max_goods_position car2)3)
                 (=(max_goods_position robot1)1) (=(max_goods_position robot2)1)
                 (=(max_goods_position UAV1)1)
+
+                (=(robot_position_available car1)2) (=(robot_position_available car2)2) 
+
+                (=(max_robot_position car1)2) (=(max_robot_position car2)2)
 
                 (=(charge_rate_in_hub car1)20) (=(charge_rate_in_hub car2)20) (=(charge_rate_in_hub UAV1)30)
                 (=(charge_rate_in_hub robot1)30) (=(charge_rate_in_hub robot2)30)  
@@ -83,14 +86,18 @@
                 (=(power_level car1)100) (=(power_level car2)100) (=(power_level UAV1)100) (=(power_level robot1)100)
                 (=(power_level robot2)100) 
 
+                (=(max_goods_position car1)3) (=(max_goods_position car2)3)
+                (=(max_goods_position robot1)1) (=(max_goods_position robot2)1)
+                (=(max_goods_position UAV1)1)
+                (=(total_power)0)
                 )
 
 
                 (:goal (and  
-                        (at package1 China_Town)(at package2 Strand) (at package3 Waterloo) (at package4 National_Gallery) (at package5 LONDON_EYE) 
+                        (at package1 National_Gallery) (at package2 Strand) (at package3 Waterloo) (at package4 China_Town) (at package5 LONDON_EYE) 
                         )
                 )
                 (:metric 
-               minimize (total-time))
+                     minimize (+(*(total-time)1)(*(total_power)0.1))
                 )
-        )
+)
