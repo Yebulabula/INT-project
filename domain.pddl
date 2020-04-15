@@ -231,8 +231,6 @@
     )
     :effect (and
         (at start (not(at ?r ?f)))
-        (at start (not(free ?r)))
-        (at end (free ?r))
         (at end (at ?r ?t))
         (at end (increase (total_power)(*(power_used_rate ?r)?duration)))
         (at end (decrease (power_level ?r)(*(power_used_rate ?r)?duration)))
@@ -253,8 +251,6 @@
         )
         :effect (and
             (at start (not(at ?c ?f)))
-            (at start (not(free ?c)))
-            (at end (free ?c))
             (at end (at ?c ?t))
             (at end (increase (total_power)(*(power_used_rate ?c)?duration)))
             (at end (decrease (power_level ?c)(*(power_used_rate ?c)?duration)))
@@ -273,8 +269,6 @@
         )
         :effect (and
             (at start (not(at ?c ?f)))
-            (at start (not(free ?c)))
-            (at end (free ?c))
             (at end (at ?c ?t))
             (at end (increase (total_power)(*(power_used_rate ?c)?duration)))
             (at end (decrease (power_level ?c)(*(power_used_rate ?c)?duration)))
@@ -293,8 +287,6 @@
         )
         :effect (and
             (at start (not(at ?u ?f)))
-            (at start (not(free ?u)))
-            (at end (free ?u))
             (at end (at ?u ?t))
             (at end (increase (total_power)(*(power_used_rate ?u)?duration)))
             (at end (decrease (power_level ?u)(*(power_used_rate ?u)?duration)))
@@ -313,8 +305,6 @@
         )
         :effect (and
             (at start (not(at ?u ?f)))
-            (at start (not(free ?u)))
-            (at end (free ?u))
             (at end (at ?u ?t))
             (at end (increase (total_power)(*(power_used_rate ?u)?duration)))
             (at end (decrease (power_level ?u)(*(power_used_rate ?u)?duration)))
