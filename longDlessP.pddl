@@ -33,14 +33,16 @@
                 (path Waterloo Strand) (path Strand Waterloo)
                 (path Waterloo LONDON_EYE) (path LONDON_EYE Waterloo)
                 (path Strand National_Gallery) (path National_Gallery Strand)
-                (path China_Town National_Gallery) (path National_Gallery China_Town)
+                (path Strand China_Town) (path China_Town Strand)
+                
                 
                 (=(distance_land Hub1 Waterloo)100) (=(distance_land Waterloo Hub1)100) 
 
                 (=(distance_land Waterloo Strand)220) (=(distance_land Strand Waterloo)220)
                 (=(distance_land Waterloo LONDON_EYE)140) (=(distance_land LONDON_EYE Waterloo)140) 
-                (=(distance_land Strand National_Gallery)100) (=(distance_land National_Gallery Strand)100)
-                (=(distance_land China_Town National_Gallery)130) (=(distance_land National_Gallery China_Town)130)
+                (=(distance_land Strand National_Gallery)110) (=(distance_land National_Gallery Strand)110)
+                (=(distance_land Strand China_Town)70) (=(distance_land China_Town Strand)70)
+                
 
                 (=(distance_air Hub1 Waterloo)80) (=(distance_air Waterloo Hub1)80) 
                 (=(distance_air Hub1 LONDON_EYE)90) (=(distance_air LONDON_EYE Hub1)90) 
