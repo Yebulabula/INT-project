@@ -90,7 +90,7 @@
 
 
                 (:goal (and  
-                        (at package1 China_Town)(at package2 Strand) (at package3 Waterloo) (at package4 National_Gallery) (at package5 LONDON_EYE) (at package6 Strand)
+                        (at package1 China_Town)(at package2 Strand) (at package3 Waterloo) (at package4 National_Gallery) (at package5 LONDON_EYE) 
                         )
                 )
                 (:metric 
