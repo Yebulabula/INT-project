@@ -85,7 +85,6 @@
                 (=(power_level car1)100) (=(power_level car2)100) (=(power_level UAV1)100)  (=(power_level UAV2)100) (=(power_level robot1)100)
                 (=(power_level robot2)100) 
 
-                (=(total_power)0)
                 )
 
 
@@ -94,6 +93,6 @@
                         )
                 )
                 (:metric 
-               minimize (+(*(total-time)1)(*(total_power)0))
+               minimize (total-time)
                 )
 )
