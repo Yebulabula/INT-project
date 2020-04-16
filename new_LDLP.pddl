@@ -16,7 +16,6 @@
                         package3 - goods
                         package4 - goods
                         package5 - goods
-                        package6 - goods
                         
                         UAV1 - UAV
                         UAV2 - UAV
@@ -26,7 +25,7 @@
                 )
                         
                 (:init (free car1) (free car2) (free UAV1) (free UAV2) (free robot1) (free robot2) (at car1 Hub1)  (at package1 Hub1)
-                (at package2 Hub1) (at package3 Hub1) (at package4 Hub1) (at package5 Hub1) (at package6 Hub1)
+                (at package2 Hub1) (at package3 Hub1) (at package4 Hub1) (at package5 Hub1)
 
                 (at UAV1 Hub1) (at UAV2 Hub1) (at robot1 Hub1) (at robot2 Hub1) (at car2 Hub1)
                 
@@ -56,7 +55,7 @@
                 ; max total movement for UAV: 200km
                 ; max total movement for robot: 500km
                  
-                (=(weight package1)50) (=(weight package2)50) (=(weight package3)50) (=(weight package4)50) (=(weight package5)50) (=(weight package6)50)
+                (=(weight package1)50) (=(weight package2)50) (=(weight package3)50) (=(weight package4)50) (=(weight package5)50)
                 
                 (=(speed car1)150) (=(speed car2)150) (=(speed UAV1)100) (=(speed UAV2)100) (=(speed robot1)50) (=(speed robot2)50) 
 
