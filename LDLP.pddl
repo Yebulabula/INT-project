@@ -91,6 +91,6 @@
                         )
                 )
                 (:metric 
-               minimize (total-time))
+               minimize (total-time)
                 )
-        )
+)
