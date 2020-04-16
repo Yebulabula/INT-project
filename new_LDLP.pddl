@@ -74,6 +74,7 @@
                 (=(goods_position_available UAV1)1) (=(goods_position_available UAV2)1)
 
                 (=(robot_position_available car1)2) (=(robot_position_available car2)2) 
+                (=(max_robot_position car1)2) (=(max_robot_position car2)2)
 
                 (=(max_goods_position car1)3) (=(max_goods_position car2)3)
                 (=(max_goods_position robot1)1) (=(max_goods_position robot2)1)
@@ -89,7 +90,7 @@
 
 
                 (:goal (and  
-                        (at package1 China_Town)(at package2 Strand) (at package3 Waterloo) (at package4 National_Gallery) (at package5 LONDON_EYE) (at package6 Strand)
+                        (at package1 China_Town)(at package2 Strand) (at package3 Waterloo) (at package4 National_Gallery) (at package5 LONDON_EYE)
                         )
                 )
                 (:metric 
