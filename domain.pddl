@@ -25,14 +25,14 @@
     (:functions
         (weight ?g - goods)
 
-        (distance_land ?l1?l2 - location)   ;两点陆地距离
-        (distance_air ?l1?l2 - location)    ;两点天空距离
+        (distance_land ?l1?l2 - location)   
+        (distance_air ?l1?l2 - location)    
 
-        (speed ?v -vehicle)                 ;移动速度
-        (power_used_rate ?v -vehicle)       ;每单位时间耗电
+        (speed ?v -vehicle)                 
+        (power_used_rate ?v -vehicle)       
         (load_time ?v -vehicle)
         (unload_time ?v -vehicle)   
-        (charge_rate_in_hub ?v - vehicle) ;recharge rate in hub
+        (charge_rate_in_hub ?v - vehicle)      
         (charge_rate_in_car ?r - robot)
         (power_level ?v -vehicle)
         (goods_position_available ?v - vehicle) 
