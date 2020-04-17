@@ -64,7 +64,7 @@
     
     (:durative-action charge_in_hub2
         :parameters (?h - hub ?v - vehicle)
-        :duration (/(charge_rate_in_hub ?v)20)
+        :duration (= ?duration (/(charge_rate_in_hub ?v)20))
         :condition (and
             (at start (free ?v))
             (over all (at ?v ?h))
