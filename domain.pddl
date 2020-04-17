@@ -227,7 +227,7 @@
             (at start (path ?f?t))
             (at start (at ?r ?f))
             (at start (free ?r))
-            (at start (>= (*(/(power_level ?r)(power_used_rate ?r))(speed ?r))(distance_air ?f?t)))
+            (at start (>= (*(/(power_level ?r)(power_used_rate ?r))(speed ?r))(distance_land ?f?t)))
         )
         :effect (and
             (at start (not(at ?r ?f)))
@@ -248,7 +248,7 @@
             (at start (path ?f?t))
             (at start (at ?c ?f))
             (at start (free ?c))
-            (at start (>= (*(/(power_level ?c)(power_used_rate ?c))(speed ?c)) (*(distance_air ?f?t)2)))
+            (at start (>= (*(/(power_level ?c)(power_used_rate ?c))(speed ?c)) (*(distance_land ?f?t)2)))
             (at start (<(robot_position_available ?c)(max_robot_position ?c)))
         )
         :effect (and
@@ -269,7 +269,7 @@
             (at start (path ?f?t))
             (at start (at ?c ?f))
             (at start (free ?c))
-            (at start (>= (*(/(power_level ?c)(power_used_rate ?c))(speed ?c))(distance_air ?f?t)))
+            (at start (>= (*(/(power_level ?c)(power_used_rate ?c))(speed ?c))(distance_land ?f?t)))
         )
         :effect (and
             (at start (not(at ?c ?f)))
