@@ -1,5 +1,3 @@
-
-
 (define (domain CITY_MANAGER)
 
     (:requirements :typing :durative-actions:fluents:duration-inequalities:equality)
@@ -48,17 +46,17 @@
     )
 
 (:durative-action charge_in_hub
- :parameters (?h - hub ?v - vehicle)
- :duration (and(<= ?duration 5)(>= ?duration 0))
- :condition (and
- (at start (free ?v))
- (at start(< (power_level ?v)100))
- (over all (at ?v ?h))
- )
- :effect (and 
- (at start (not(free ?v)))
- (at end (free ?v))
- (at end (increase (power_level ?v)(* (charge_rate_in_hub ?v)?duration))) 
+    :parameters (?h - hub ?v - vehicle)
+    :duration (and(<= ?duration 5)(>= ?duration 0))
+    :condition (and
+        (at start (free ?v))
+        (at start(< (power_level ?v)100))
+        (over all (at ?v ?h))
+    )
+    :effect (and 
+        (at start (not(free ?v)))
+        (at end (free ?v))
+        (at end (increase (power_level ?v)(* (charge_rate_in_hub ?v)?duration))) 
  )
 )
 
