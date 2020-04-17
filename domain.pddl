@@ -25,7 +25,7 @@
     )
 
     (:functions
-        weight ?g - goods)
+        (weight ?g - goods)
 
         (distance_land ?l1?l2 - location)   ;两点陆地距离
         (distance_air ?l1?l2 - location)    ;两点天空距离
