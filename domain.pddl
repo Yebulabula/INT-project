@@ -1,4 +1,4 @@
-;INT_project domain
+
 
 (define (domain CITY_MANAGER)
 
@@ -48,22 +48,23 @@
     )
 
 (:durative-action charge_in_hub
-    :parameters (?h - hub ?v - vehicle)
-    :duration (<= ?duration 5)
-    :condition (and
-        (at start (free ?v))
-        (over all(< (power_level ?v)100))
-        (over all (at ?v ?h))
-    )
-    :effect (and 
-        (at start (not(free ?v)))
-        (at end (free ?v))
-        (at end (increase (power_level ?v)(* (charge_rate_in_hub ?v)?duration)))    
-    )
+ :parameters (?h - hub ?v - vehicle)
+ :duration (and(<= ?duration 5)(>= ?duration 0))
+ :condition (and
+ (at start (free ?v))
+ (at start(< (power_level ?v)100))
+ (over all (at ?v ?h))
+ )
+ :effect (and 
+ (at start (not(free ?v)))
+ (at end (free ?v))
+ (at end (increase (power_level ?v)(* (charge_rate_in_hub ?v)?duration))) 
+ )
 )
+
 (:durative-action charge_in_car
     :parameters (?c - car ?r - robot)
-    :duration (<= ?duration 20)
+    :duration (and(<= ?duration 20)(>= ?duration 0))
     :condition (and
         (over all (< (power_level ?r)100))
         (at start(free ?r))
