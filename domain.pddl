@@ -68,7 +68,7 @@
         :condition (and
             (at start (free ?v))
             (over all (at ?v ?h))
-            (at start (<= (power_level ?v)95)
+            (at start (<= (power_level ?v)95))
         )
         :effect (and 
             (at start (not(free ?v)))
